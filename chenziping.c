@@ -7,13 +7,13 @@
 
 void initRCC()
 {
-  RCC -> APB1RSTR = 0x00000000;
-  RCC -> APB2RSTR = 0x00000000;
-  RCC -> AHBENR = 0x00000014; //睡眠模式闪存和SRAM时钟使能.其他关闭.
+	RCC -> APB1RSTR = 0x00000000;
+	RCC -> APB2RSTR = 0x00000000;
+	RCC -> AHBENR = 0x00000014; //睡眠模式闪存和SRAM时钟使能.其他关闭.
 	RCC -> APB2ENR = 0x00000000; //外设时钟关闭.
 	RCC -> APB1ENR = 0x00000000;
-  RCC -> CR |= 0x00000001; //开启内部8MHz时钟
-  RCC -> CFGR &= 0xF8FF0000; //复位SW[1:0],HPRE[3:0],PPRE1[2:0],PPRE2[2:0],ADCPRE[1:0],MCO[2:0]
+	RCC -> CR |= 0x00000001; //开启内部8MHz时钟
+	RCC -> CFGR &= 0xF8FF0000; //复位SW[1:0],HPRE[3:0],PPRE1[2:0],PPRE2[2:0],ADCPRE[1:0],MCO[2:0]
 	RCC -> CR &= 0xFEF6FFFF; //复位HSEON,CSSON,PLLON
 	RCC -> CR &= 0xFFFBFFFF; //复位HSEBYP
 	RCC -> CFGR &= 0xFF80FFFF; //复位PLLSRC, PLLXTPRE, PLLMUL[3:0] and USBPRE
@@ -32,9 +32,9 @@ void setVectorTable(u32 NVIC_VectTab, u32 Offset)
 
 void initClock(u8 PLL)//PLL:2-16
 {
-  uc tmp = 0;
-  initRCC();
-  RCC -> CR |= 1 << 16; //外部高速时钟使能HSEON
+	uc tmp = 0;
+	initRCC();
+	RCC -> CR |= 1 << 16; //外部高速时钟使能HSEON
 	while(!(RCC -> CR >> 17)); //等待外部时钟就绪
 	RCC -> CFGR = 0x00000400; //0X00002000; //APB1=DIV2;APB2=DIV1;AHB=DIV1;
 	PLL -= 2; //抵消2个单位
